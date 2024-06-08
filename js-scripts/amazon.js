@@ -1,4 +1,4 @@
-import { cart } from "../data/cart.js";
+import { cart,addCart } from "../data/cart.js";
 import { products } from "../data/products.js";
 let productHTML = ``;
 products.forEach((product,i) =>{
@@ -58,36 +58,22 @@ products.forEach((product,i) =>{
 const productGrid = document.querySelector('.js-product-grid');
 productGrid.innerHTML = productHTML;
 let cartQuantity = 0;
+function updateCartUI(productID){
+  const val = document.querySelector(`.js-quantity-sel-${productID}`);
+  cartQuantity+=Number(val.value);
+  
+  let cartQuantityHtml = document.querySelector('.js-cart-quantity');
+  cartQuantityHtml.innerHTML = `${cartQuantity}`;
+}
+
 document.querySelectorAll('.js-add-cart')
   .forEach((btn)=>{
     btn.addEventListener('click',()=>{
         const productID = btn.dataset.productId;
 
-        let match;
-
-        cart.forEach((item)=>{
-          if(productID === item.productId){
-            match = item;
-          }
-        });
-
-        if(match){
-          match.quantity +=1;
-        }else{
-          cart.push({
-            productId:productID,
-            quantity:1
-          })
-        }
+        addCart(productID);
+        updateCartUI(productID);
         
-        const val = document.querySelector(`.js-quantity-sel-${productID}`);
-        cartQuantity+=Number(val.value);
-        // cart.forEach((item)=>{
-
-        //   cartQuantity += item.quantity;
-        // })
-        let cartQuantityHtml = document.querySelector('.js-cart-quantity');
-        cartQuantityHtml.innerHTML = `${cartQuantity}`;
         
     })
   })
