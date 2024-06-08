@@ -114,6 +114,12 @@ document.querySelectorAll('.js-add-cart')
             quantity:1
           })
         }
-        console.log(cart);
+        let cartQuantity = 0;
+        cart.forEach((item)=>{
+          cartQuantity += item.quantity;
+        })
+        let cartQuantityHtml = document.querySelector('.js-cart-quantity');
+        cartQuantityHtml.innerHTML = `${cartQuantity}`;
+        
     })
   })
