@@ -1,3 +1,5 @@
+import { cart } from "../data/cart.js";
+
 // const products = [
 //     {
 //         img:"images/products/athletic-cotton-socks-6-pairs.jpg",
@@ -36,7 +38,7 @@
 
 // ]
 let productHTML = ``;
-products.forEach((product) =>{
+products.forEach((product,i) =>{
      productHTML+= `
         <div class="product-container">
           <div class="product-image-container">
@@ -61,7 +63,7 @@ products.forEach((product) =>{
           </div>
 
           <div class="product-quantity-container">
-            <select>
+            <select class="js-quantity-sel-${product.id}">
               <option selected value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -92,7 +94,7 @@ products.forEach((product) =>{
 
 const productGrid = document.querySelector('.js-product-grid');
 productGrid.innerHTML = productHTML;
-
+let cartQuantity = 0;
 document.querySelectorAll('.js-add-cart')
   .forEach((btn)=>{
     btn.addEventListener('click',()=>{
@@ -114,10 +116,13 @@ document.querySelectorAll('.js-add-cart')
             quantity:1
           })
         }
-        let cartQuantity = 0;
-        cart.forEach((item)=>{
-          cartQuantity += item.quantity;
-        })
+        
+        const val = document.querySelector(`.js-quantity-sel-${productID}`);
+        cartQuantity+=Number(val.value);
+        // cart.forEach((item)=>{
+
+        //   cartQuantity += item.quantity;
+        // })
         let cartQuantityHtml = document.querySelector('.js-cart-quantity');
         cartQuantityHtml.innerHTML = `${cartQuantity}`;
         
