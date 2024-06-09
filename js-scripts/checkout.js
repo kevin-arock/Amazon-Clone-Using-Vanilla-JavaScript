@@ -1,12 +1,9 @@
 import { cart,removeCart,updateDeliveryOption } from "../data/cart.js";
 import { getProduct, products } from "../data/products.js";
-
+import '../data/cart-oop.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import { delivery,getDelivery } from "../data/delivery.js"; 
 import { payment } from "../data/checkout-helper/payment.js";
-
-
-
 
 function renderCart(){
   
