@@ -1,4 +1,4 @@
-import { cart,removeCart } from "../data/cart.js";
+import { cart,removeCart,updateDeliveryOption } from "../data/cart.js";
 import { products } from "../data/products.js";
 
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
@@ -75,7 +75,9 @@ function deliveryHtml(matching,item){
     console.log(delivery.id,matching);
     const price = delivery.priceCents === 0 ? 'FREE' : `$${delivery.priceCents.toFixed(2)}-`;
     html+=`
-    <div class="delivery-option">
+    <div class="delivery-option js-delivery-options" data-product-id="${matching.id}"
+    data-delivery-option-id="${delivery.id}"
+    >
       <input type="radio"
         ${isChecked ? 'checked' : ''}
         class="delivery-option-input"
@@ -107,5 +109,13 @@ let summary = document.querySelector('.js-order-summary');
           const con = document.querySelector(`.js-cart-container-${delId}`)        
           console.log(con);
           con.remove();
+        })
+      })
+
+document.querySelectorAll('.js-delivery-options')
+      .forEach((el)=>{
+        el.addEventListener('click',()=>{
+          const {productId,deliveryOptionId} = el.dataset;
+          updateDeliveryOption(productId,deliveryOptionId)
         })
       })

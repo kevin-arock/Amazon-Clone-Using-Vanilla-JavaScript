@@ -50,3 +50,18 @@ export function addCart(productID,cq){
     cart = newCart;
     addToLocal(); 
   }
+
+export function updateDeliveryOption(productId,deliveryId){
+  let match;
+  
+    cart.forEach((item)=>{
+      if(productId === item.productId){
+        match = item;
+      }
+    });
+
+    match.deliveryId = deliveryId;
+
+    addToLocal();
+}
+
