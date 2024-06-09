@@ -1,25 +1,30 @@
 import { cart,removeCart,updateDeliveryOption } from "../data/cart.js";
-import { products } from "../data/products.js";
+import { getProduct, products } from "../data/products.js";
 
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
-import { delivery } from "../data/delivery.js"; 
+import { delivery,getDelivery } from "../data/delivery.js"; 
+import { payment } from "../data/checkout-helper/payment.js";
 
+
+
+const today = dayjs();
+const date = today.add(7,'days');
+const dateString = date.format('dddd, MMMM D');
+function renderCart(){
+  
 let carthtml = ``;
 cart.forEach((item)=>{
-    
     let pid = item.productId;
-    let matching;
-
-    products.forEach((i)=>{
-        if(i.id === pid){
-            matching = i;
-        }
-    });
+    let matching = getProduct (pid);
+    let deliveryOption = getDelivery(item.deliveryId);
+    const today = dayjs();
+    const date = today.add(deliveryOption.deliveryDays,'days');
+    const dateString = date.format('dddd, MMMM D');
     carthtml +=`
     
     <div class="cart-item-container js-cart-container-${matching.id}">
             <div class="delivery-date">
-              Delivery date: Tuesday, June 21
+              Delivery date:${dateString}
             </div>
 
             <div class="cart-item-details-grid">
@@ -66,13 +71,11 @@ cart.forEach((item)=>{
 function deliveryHtml(matching,item){
   let html = ``;
   delivery.forEach((delivery)=>{
+    const isChecked = delivery.id === item.deliveryId;
+    
     const today = dayjs();
     const date = today.add(delivery.deliveryDays,'days');
-    const dateString = date.format(
-      'dddd, MMMM D'
-    );
-    const isChecked = delivery.id === item.deliveryId;
-    console.log(delivery.id,matching);
+    const dateString = date.format('dddd, MMMM D');
     const price = delivery.priceCents === 0 ? 'FREE' : `$${delivery.priceCents.toFixed(2)}-`;
     html+=`
     <div class="delivery-option js-delivery-options" data-product-id="${matching.id}"
@@ -97,7 +100,7 @@ function deliveryHtml(matching,item){
   return html;
 }
 
-let summary = document.querySelector('.js-order-summary');
+  let summary = document.querySelector('.js-order-summary');
     summary.innerHTML = carthtml;
     console.log(carthtml)
 
@@ -112,10 +115,16 @@ let summary = document.querySelector('.js-order-summary');
         })
       })
 
-document.querySelectorAll('.js-delivery-options')
+  document.querySelectorAll('.js-delivery-options')
       .forEach((el)=>{
         el.addEventListener('click',()=>{
           const {productId,deliveryOptionId} = el.dataset;
-          updateDeliveryOption(productId,deliveryOptionId)
+          console.log(productId,deliveryOptionId);
+          updateDeliveryOption(productId,deliveryOptionId);
+          renderCart();
         })
       })
+console.log('ok');
+}
+payment();
+renderCart();
