@@ -59,8 +59,8 @@ const productGrid = document.querySelector('.js-product-grid');
 productGrid.innerHTML = productHTML;
 let cartQuantity = 0;
 function updateCartUI(productID){
-  const val = document.querySelector(`.js-quantity-sel-${productID}`);
-  cartQuantity+=Number(val.value);
+   const val = document.querySelector(`.js-quantity-sel-${productID}`);
+   cartQuantity+=Number(val.value);
   
   let cartQuantityHtml = document.querySelector('.js-cart-quantity');
   cartQuantityHtml.innerHTML = `${cartQuantity}`;
@@ -70,9 +70,11 @@ document.querySelectorAll('.js-add-cart')
   .forEach((btn)=>{
     btn.addEventListener('click',()=>{
         const productID = btn.dataset.productId;
-
-        addCart(productID);
+        const val = document.querySelector(`.js-quantity-sel-${productID}`);
+        let cq =Number(val.value);
         updateCartUI(productID);
+        addCart(productID,cq);
+        
         
         
     })

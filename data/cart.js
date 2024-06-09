@@ -4,10 +4,13 @@ if(!cart){
   cart = [{
       productId:"e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
       quantity:2,
+      deliveryId:'1'
+    
   },
   {
       productId:"15b6fc6f-327a-4ec4-896f-486349e85a3d",
       quantity:2,
+      deliveryId:'2'
   }
   ];
 }
@@ -16,7 +19,7 @@ function addToLocal(){
   localStorage.setItem('cart',JSON.stringify(cart));
 }
 
-export function addCart(productID){
+export function addCart(productID,cq){
   
     let match;
   
@@ -27,11 +30,12 @@ export function addCart(productID){
     });
   
     if(match){
-      match.quantity +=1;
+      match.quantity +=Number(cq);
     }else{
       cart.push({
         productId:productID,
-        quantity:1
+        quantity:Number(cq),
+        deliveryId:'1'
       })
     }
     addToLocal();
