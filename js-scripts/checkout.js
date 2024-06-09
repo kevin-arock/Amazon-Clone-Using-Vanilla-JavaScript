@@ -13,7 +13,7 @@ cart.forEach((item)=>{
     });
     carthtml +=`
     
-    <div class="cart-item-container">
+    <div class="cart-item-container js-cart-container-${matching.id}">
             <div class="delivery-date">
               Delivery date: Tuesday, June 21
             </div>
@@ -103,7 +103,10 @@ cart.forEach((item)=>{
       .forEach((link)=>{
         link.addEventListener('click',()=>{
           const delId = link.dataset.productId;
-          removeCart(delId);        
+          removeCart(delId);
+          const con = document.querySelector(`.js-cart-container-${delId}`)        
+          console.log(con);
+          con.remove();
         })
       })
 
