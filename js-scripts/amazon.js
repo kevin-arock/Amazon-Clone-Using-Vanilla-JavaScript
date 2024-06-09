@@ -39,6 +39,8 @@ products.forEach((product,i) =>{
               <option value="10">10</option>
             </select>
           </div>
+          ${product.info()}
+
 
           <div class="product-spacer"></div>
 
