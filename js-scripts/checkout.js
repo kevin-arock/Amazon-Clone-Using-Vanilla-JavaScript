@@ -31,7 +31,7 @@ function renderCart(){
                         ${matching.name}
                       </div>
                       <div class="product-price">
-                        $${(matching.priceCents/100).toFixed(2)}
+                        $${matching.getPrice}
                       </div>
                       <div class="product-quantity">
                         <span>
